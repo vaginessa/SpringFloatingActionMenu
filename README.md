@@ -1,8 +1,10 @@
 # SpringFloatingActionMenu
-A menu layout with FloatingActionButton.
+A menu layout with makovkastar's `FloatingActionButton`.
 
 # Screenshot
-![Demo gif](https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif)
+<img src="https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif" alt="animation gif" style="width:388;height:690">
+
+<!--![Demo gif](https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif)-->
 
 # Usage
 
@@ -10,7 +12,7 @@ Add the dependency to your `build.gradle`.
 
 ```
 dependencies {
-    
+    //still Waiting for approval
 }
 ```
 
