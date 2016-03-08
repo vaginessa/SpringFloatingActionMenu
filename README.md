@@ -1,5 +1,6 @@
 # SpringFloatingActionMenu
 A menu layout with FloatingActionButton 
+![Demo gif](https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif)
 
 # Usage
 
@@ -7,7 +8,7 @@ Add the dependency to your build.gradle.
 
 ```
 dependencies {
-    compile 'com.ogaclejapan.arclayout:library:1.0.1@aar'
+    
 }
 ```
 
