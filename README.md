@@ -11,7 +11,7 @@ dependencies {
 }
 ```
 
-setup in Activity onCreate method
+setup in Activity `onCreate`method
 ```java
        //create your own FAB
         final FloatingActionButton fab = new FloatingActionButton(this);
@@ -53,7 +53,7 @@ setup in Activity onCreate method
                 })
                 .build();
 ```
-for more usage, you can check out the example.
+For more usage, you can check out the example project.
 
 ## Dependencies
 
