@@ -1,24 +1,32 @@
 # SpringFloatingActionMenu
-A menu layout with makovkastar's `FloatingActionButton`.
+A menu layout view with makovkastar's `FloatingActionButton`, which means you still can use the features of FAB 
+like auto hide while scrolling.
 
-# Screenshot
-<img src="https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif" alt="animation gif" style="width:388;height:690">
+这是一个makovkastar的`FloatingActionButton`基础上的控件,主要效果是点击FAB会弹出菜单,并有动画效果.所以FAB的所有特性都能用,比如当列表滚动自动隐藏等.
+
+# Screenshot 截图
+<img src="https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif" loop=infinite alt="animation gif" style="width:388;height:690">
 
 <!--![Demo gif](https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif)-->
 
-# Usage
+# Usage 用法
 
 Add the dependency to your `build.gradle`.
 
+在`build.gradle`添加依赖
 ```
 dependencies {
+    //还没审核成功...
     //still Waiting for approval
 }
 ```
 
 setup in Activity `onCreate`method
+
+在`onCreate`方法中设置
 ```java
        //create your own FAB
+       /必须手动创建FAB, 并设置属性
         final FloatingActionButton fab = new FloatingActionButton(this);
         fab.setType(FloatingActionButton.TYPE_NORMAL);
         fab.setImageResource(icon);
@@ -30,6 +38,7 @@ setup in Activity `onCreate`method
         new SpringFloatingActionMenu.Builder(this)
                 .fab(fab)
                 //add menu item via addMenuItem(bgColor,icon,label,label color,onClickListener)
+                //添加菜单按钮参数依次是背景颜色,图标,标签,标签的颜色,点击事件
                 .addMenuItem(R.color.photo, R.mipmap.ic_messaging_posttype_photo, "Photo", R.color.text_color,this)
                 .addMenuItem(R.color.chat, R.mipmap.ic_messaging_posttype_chat, "Chat", R.color.text_color,this)
                 .addMenuItem(R.color.quote, R.mipmap.ic_messaging_posttype_quote, "Quote", R.color.text_color,this)
@@ -38,29 +47,41 @@ setup in Activity `onCreate`method
                 .addMenuItem(R.color.text, R.mipmap.ic_messaging_posttype_text, "Text", R.color.text_color,this)
                 .addMenuItem(R.color.video, R.mipmap.ic_messaging_posttype_video, "Video", R.color.text_color,this)
                 //you can choose menu layout animation
+                //设置动画类型
                 .animationType(SpringFloatingActionMenu.ANIMATION_TYPE_TUMBLR)
                 //setup reveal color while the menu opening
+                //设置reveal效果的颜色
                 .revealColor(R.color.colorPrimary)
-                //set FAB location
+                //set FAB location, only support bottom center and bottom right
+                //设置FAB的位置,只支持底部居中和右下角的位置
                 .gravity(Gravity.RIGHT | Gravity.BOTTOM)
                 .onMenuActionListner(new OnMenuActionListener() {
                     @Override
                     public void onMenuOpen() {
                         //set FAB icon when the menu opened
-                        fab.setImageResource(icon_opend);
+                        //设置FAB的icon当菜单打开的时候
+                        fab.setImageResource(icon_closed);
                     }
 
                     @Override
                     public void onMenuClose() {
                         //set back FAB icon when the menu closed
+                        //设置回FAB的图标当菜单关闭的时候
                         fab.setImageResource(icon_opend);
                     }
                 })
                 .build();
 ```
-For more usage, you can check out the example project.
+ote you should include `toolbar` in your layout xml manually and not use `theme style` or you will find the `reveal` effect not cover the whole screen.
 
-## Dependencies
+注意不能使用系统提供的主题的`toolbar`,不然`reveal`效果就不会覆盖全屏,应该手动在xml中添加toolbar.
+
+
+For more usage, you can check out the example.
+
+更多的用法可以参考example.
+
+# Dependencies 依赖
 
 * [rebound](http://facebook.github.io/rebound/)
 * [backboard](https://github.com/tumblr/Backboard)
