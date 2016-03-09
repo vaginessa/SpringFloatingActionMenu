@@ -8,6 +8,10 @@ like auto hide while scrolling.
 <img src="https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif" loop=infinite alt="animation gif" style="width:388;height:690">
 
 <!--![Demo gif](https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif)-->
+Sample App [download](http://fir.im/wahf)
+示例App[下载](http://fir.im/wahf)
+<img src="https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/qr.png" alt="qr">
+
 
 # Usage 用法
 
@@ -16,8 +20,7 @@ Add the dependency to your `build.gradle`.
 在`build.gradle`添加依赖
 ```
 dependencies {
-    //还没审核成功...
-    //still Waiting for approval
+    compile 'com.tiancaicc.springfloatingactionmenu:library:0.0.1'
 }
 ```
 
