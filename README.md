@@ -78,7 +78,7 @@ setup in Activity `onCreate`method
                 })
                 .build();
 ```
-ote you should include `toolbar` in your layout xml manually and not use `theme style` or you will find the `reveal` effect not cover the whole screen.
+Note you should include `toolbar` in your layout xml manually and not use `theme style` or you will find the `reveal` effect not cover the whole screen.
 
 注意不能使用系统提供的主题的`toolbar`,不然`reveal`效果就不会覆盖全屏,应该手动在xml中添加toolbar.
 
