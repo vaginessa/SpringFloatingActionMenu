@@ -89,7 +89,7 @@ For more usage, you can check out the example.
 
 # 实现原理
 
-[实现原理](http://blog.idropphone.com)
+[实现原理](http://blog.idropphone.com/2016/03/09/基于FloatingActionButton的一个炫酷菜单控件/)
 
 # Dependencies 依赖
 
