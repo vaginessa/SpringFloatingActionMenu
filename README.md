@@ -9,7 +9,9 @@ like auto hide while scrolling.
 
 <!--![Demo gif](https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/demo.gif)-->
 Sample App [download](http://fir.im/wahf)
+
 示例App[下载](http://fir.im/wahf)
+
 <img src="https://raw.githubusercontent.com/tiancaiCC/SpringFloatingActionMenu/master/art/qr.png" alt="qr">
 
 
