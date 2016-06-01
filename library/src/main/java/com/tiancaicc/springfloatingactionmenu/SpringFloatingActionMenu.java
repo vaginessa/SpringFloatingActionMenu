@@ -337,7 +337,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
         for (MenuItem item : mMenuItems) {
             MenuItemView menuItemView = new MenuItemView(mContext, item);
             menuItemView.setLayoutParams(Utils.createWrapParams());
-            menuItemView.setOnClickListener(item.getOnClickListener());
+//            menuItemView.setOnClickListener(item.getOnClickListener());
             menuItemViews.add(menuItemView);
         }
         return menuItemViews;
