@@ -1,10 +1,13 @@
 package com.tiancaicc.springfloatingactionmenu;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -173,14 +176,30 @@ public class MenuItemView extends LinearLayout implements OnMenuActionListener {
     public void onMenuOpen() {
         showLabel();
         if(mAlphaAnimation) {
-            animate().alpha(1).setDuration(120);
+            animate().alpha(1).setDuration(120).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    Log.d(TAG,"now enable clickListener");
+                    MenuItemView.this.setOnClickListener(mMenuItem.getOnClickListener());
+                }
+            });
+        }else {
+            MenuItemView.this.setOnClickListener(mMenuItem.getOnClickListener());
         }
     }
 
     @Override
     public void onMenuClose() {
         if(mAlphaAnimation) {
-            animate().alpha(0).setDuration(120);
+            animate().alpha(0).setDuration(120).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    Log.d(TAG,"now disable clickListener");
+                    MenuItemView.this.setOnClickListener(null);
+                }
+            });
+        }else {
+            MenuItemView.this.setOnClickListener(null);
         }
     }
 }
