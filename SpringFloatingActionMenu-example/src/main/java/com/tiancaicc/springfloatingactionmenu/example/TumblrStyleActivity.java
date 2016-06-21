@@ -57,6 +57,12 @@ public class TumblrStyleActivity extends AppCompatActivity implements View.OnCli
         createFabFrameAnim();
         createFabReverseFrameAnim();
 
+        findViewById(R.id.text_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TumblrStyleActivity.this, "Click", Toast.LENGTH_SHORT).show();
+            }
+        });
         final FloatingActionButton fab = new FloatingActionButton(this);
         fab.setType(FloatingActionButton.TYPE_NORMAL);
         fab.setImageDrawable(frameAnim);
