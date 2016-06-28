@@ -1,5 +1,8 @@
 package com.tiancaicc.springfloatingactionmenu;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringListener;
 
@@ -20,6 +23,16 @@ import com.facebook.rebound.SpringListener;
  */
 public class DestroySelfSpringListener implements SpringListener {
     private static final String TAG = "DestroySelfSpringListener";
+
+    private ViewGroup mSpringMenu;
+    private View mContainer;
+    private boolean mInOpen;
+
+    public DestroySelfSpringListener(ViewGroup root,View fab,boolean isOpn){
+        this.mSpringMenu = root;
+        this.mContainer = fab;
+        this.mInOpen = isOpn;
+    }
     @Override
     public void onSpringUpdate(Spring spring) {
 
@@ -30,11 +43,17 @@ public class DestroySelfSpringListener implements SpringListener {
         spring.removeAllListeners();
         spring.destroy();
         spring = null;
+        if(mSpringMenu != null && !mInOpen) {
+            mSpringMenu.removeView(mContainer);
+        }
     }
 
     @Override
     public void onSpringActivate(Spring spring) {
 
+        if(mSpringMenu != null && mSpringMenu.indexOfChild(mContainer) == -1) {
+           mSpringMenu.addView(mContainer);
+        }
     }
 
     @Override

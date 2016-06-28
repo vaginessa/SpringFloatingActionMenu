@@ -77,6 +77,8 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
     private ArrayList<MenuItemView> mMenuItemViews;
 
+    private ViewGroup mContainerView;
+
     private ArrayList<OnMenuActionListener> mActionListeners;
 
     private OnFabClickListener mOnFabClickListener;
@@ -128,24 +130,25 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
     private void init(Context context) {
 
         this.mContext = context;
-
+        mContainerView = new FrameLayout(context);
         //add reveal circle, it will at bottom position
-        addView(mRevealCircle = generateRevealCircle());
+        mContainerView.addView(mRevealCircle = generateRevealCircle());
 
         //generate and add follow circles
         mFollowCircles = generateFollowCircles();
         for (int i = mFollowCircles.size() - 1; i >= 0; i--) {
-            addView(mFollowCircles.get(i));
+            mContainerView.addView(mFollowCircles.get(i));
         }
 
         //generate and add menuItemViews
         mMenuItemViews = generateMenuItemViews();
         for (MenuItemView menuItemView : mMenuItemViews) {
-            addView(menuItemView);
+            mContainerView.addView(menuItemView);
             addOnMenuActionListener(menuItemView);
         }
         mMenuItemViews.get(0).bringToFront();
 
+//        addView(mContainerView);
         //add FAB
         LayoutParams fablp = Utils.createWrapParams();
         fablp.gravity = mGravity;
@@ -551,7 +554,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
             MenuItemView menuItemView = mMenuItemViews.get(i);
             springX.addListener(new MapPerformer(menuItemView, View.X, mFAB.getLeft(), menuItemView.getLeft()));
             springY.addListener(new MapPerformer(menuItemView, View.Y, mFAB.getTop(), menuItemView.getTop()));
-            DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener();
+            DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener(this,mContainerView,true);
             springX.addListener(destroySelfSpringListener);
             springY.addListener(destroySelfSpringListener);
             springX.setEndValue(1);
@@ -570,7 +573,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
             MenuItemView menuItemView = mMenuItemViews.get(i);
             springX.addListener(new MapPerformer(menuItemView, View.X, menuItemView.getLeft(), mFAB.getLeft()));
             springY.addListener(new MapPerformer(menuItemView, View.Y, menuItemView.getTop(), mFAB.getTop()));
-            DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener();
+            DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener(this,mContainerView,false);
             springX.addListener(destroySelfSpringListener);
             springY.addListener(destroySelfSpringListener);
             springX.setEndValue(1);
@@ -596,7 +599,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
         springScaleX.addListener(new MapPerformer(firstItem, View.SCALE_X, 0, 1));
         springScaleY.addListener(new MapPerformer(firstItem, View.SCALE_Y, 0, 1));
-        final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener();
+        final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener(this,mContainerView,true);
         springScaleX.addListener(destroySelfSpringListener);
         springScaleY.addListener(destroySelfSpringListener);
         springScaleX.setEndValue(1);
@@ -613,7 +616,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
                     springScaleX.addListener(new MapPerformer(menuItemView, View.SCALE_X, 0, 1));
                     springScaleY.addListener(new MapPerformer(menuItemView, View.SCALE_Y, 0, 1));
-                    final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener();
+                    final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener(SpringFloatingActionMenu.this,mContainerView,true);
                     springScaleX.addListener(destroySelfSpringListener);
                     springScaleY.addListener(destroySelfSpringListener);
                     springScaleX.setEndValue(1);
@@ -642,7 +645,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
         springScaleX.addListener(new MapPerformer(firstItem, View.SCALE_X, 1, 0));
         springScaleY.addListener(new MapPerformer(firstItem, View.SCALE_Y, 1, 0));
-        final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener();
+        final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener(this,mContainerView,false);
         springScaleX.addListener(destroySelfSpringListener);
         springScaleY.addListener(destroySelfSpringListener);
         springScaleX.setEndValue(1);
@@ -658,7 +661,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
                     springScaleX.addListener(new MapPerformer(menuItemView, View.SCALE_X, 1, 0));
                     springScaleY.addListener(new MapPerformer(menuItemView, View.SCALE_Y, 1, 0));
-                    final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener();
+                    final DestroySelfSpringListener destroySelfSpringListener = new DestroySelfSpringListener(SpringFloatingActionMenu.this,mContainerView,false);
                     springScaleX.addListener(destroySelfSpringListener);
                     springScaleY.addListener(destroySelfSpringListener);
                     springScaleX.setEndValue(1);
