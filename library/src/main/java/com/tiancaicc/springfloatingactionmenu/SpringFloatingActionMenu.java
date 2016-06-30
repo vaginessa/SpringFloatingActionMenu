@@ -12,6 +12,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -353,10 +354,14 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
         View view = new View(mContext);
         OvalShape ovalShape = new OvalShape();
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
-        shapeDrawable.getPaint().setColor(getResources().getColor(mRevealColor));
+        shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext, mRevealColor));
         view.setBackgroundDrawable(shapeDrawable);
         LayoutParams lp = new LayoutParams(diameter, diameter);
         view.setLayoutParams(lp);
+
+        // Make view clickable to avoid clicks on any view located behind the menu
+        view.setClickable(true);
+
         // note it is invisible, but will be visible while  animating
         view.setVisibility(View.INVISIBLE);
         return view;
