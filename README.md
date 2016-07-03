@@ -101,13 +101,13 @@ For more usage, you can check out the example.
 
 # CHANGE LOG
 
-## version 0.0.2
+**version 0.0.2:**
 + Avoid clicks on views behind the menu when is open. Thanks to [@amanzan](https://github.com/amanzan);
 + Fix bug when menu is invisible and still hold the touch event. Thanks to [@brucetoo](https://github.com/brucetoo);
 + Fix bug when MenuItemView is not visible,it's onClick event still can work. Thanks to [@brucetoo](https://github.com/brucetoo);
 + Add support to disable FAB movement;
 + Fix: In Last Collapsing animation of menu leaves traces of menu items on screen;
-+ Fix animation unstable caused by FAB get clicked too fast;
++ Fix animation unstable caused by FAB get clicked too fast.
 
 # LICENSE
 
