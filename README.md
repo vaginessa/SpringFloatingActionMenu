@@ -23,6 +23,7 @@ Add the dependency to your `build.gradle`.
 在`build.gradle`添加依赖
 ```
 dependencies {
+   // note v0.0.2 is still uploading
     compile 'com.tiancaicc.springfloatingactionmenu:library:0.0.1'
 }
 ```
@@ -98,6 +99,15 @@ For more usage, you can check out the example.
 * [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton)
 * [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 
+# UPDATE LOG
+
+## version 0.0.2
+1.Avoid clicks on views behind the menu when is open. Thanks to @amanzan
+2.Fix bug when menu is invisible and still hold the touch event. Thanks to @brucetoo
+3.Fix bug when MenuItemView is not visible,it's onClick event still can work. Thanks to @brucetoo
+4.Add support to disable FAB movement
+5.Fix: In Last Collapsing animation of menu leaves traces of menu items on screen
+6.Fix animation unstable caused by FAB get clicked too fast
 
 # LICENSE
 
