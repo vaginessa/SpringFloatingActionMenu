@@ -1,4 +1,6 @@
 # SpringFloatingActionMenu
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SpringFloatingActionMenu-green.svg?style=true)](https://android-arsenal.com/details/1/3443)
+
 A menu layout view with makovkastar's `FloatingActionButton`, which means you still can use the features of FAB 
 like auto hide while scrolling.
 
@@ -23,8 +25,7 @@ Add the dependency to your `build.gradle`.
 在`build.gradle`添加依赖
 ```
 dependencies {
-   // note v0.0.2 is still uploading
-    compile 'com.tiancaicc.springfloatingactionmenu:library:0.0.1'
+   compile 'com.tiancaicc.springfloatingactionmenu:library:0.0.2'
 }
 ```
 
