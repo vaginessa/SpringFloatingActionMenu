@@ -1,6 +1,7 @@
 package com.tiancaicc.springfloatingactionmenu;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -101,6 +102,10 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
     private int mTumblrTimeInterval = 70;
 
+    // fix animation not stable caused by FAB click too fast
+    private boolean mAnimating = false;
+
+    private boolean mEnableFollowAnimation = true;
 
     public SpringFloatingActionMenu(Builder builder) {
         super(builder.context);
@@ -113,6 +118,7 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
         this.mRevealColor = builder.revealColor;
         this.mAnimationType = builder.animationType;
         this.mOnFabClickListener = builder.onFabClickListener;
+        this.mEnableFollowAnimation = builder.enableFollowAnimation;
         init(mContext);
     }
 
@@ -131,14 +137,19 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
     private void init(Context context) {
 
         this.mContext = context;
+        // this mContainerView will be added when animation happened,
+        // see DestroySelfSpringListener.onSpringActivate()
         mContainerView = new FrameLayout(context);
         //add reveal circle, it will at bottom position
         mContainerView.addView(mRevealCircle = generateRevealCircle());
 
         //generate and add follow circles
-        mFollowCircles = generateFollowCircles();
-        for (int i = mFollowCircles.size() - 1; i >= 0; i--) {
-            mContainerView.addView(mFollowCircles.get(i));
+        if (mEnableFollowAnimation) {
+            mFollowCircles = generateFollowCircles();
+            for (int i = mFollowCircles.size() - 1; i >= 0; i--) {
+                // note follow circles is not added in container view, is just added in this SpringFloatingActionMenu
+                addView(mFollowCircles.get(i));
+            }
         }
 
         //generate and add menuItemViews
@@ -167,6 +178,9 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
         mFAB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mAnimating) {
+                    return;
+                }
                 if (mOnFabClickListener != null) {
                     mOnFabClickListener.onClcik();
                 }
@@ -370,7 +384,9 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
     @Override
     public void onGlobalLayout() {
         Log.d(TAG, "onGlobalLayout");
-        applyFollowAnimation();
+        if (mEnableFollowAnimation) {
+            applyFollowAnimation();
+        }
     }
 
     private void addOnMenuActionListener(OnMenuActionListener listener) {
@@ -438,7 +454,20 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
                 .scaleY(100)
                 .setDuration(mRevealDuration)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(null)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mAnimating = false;
+                        animation.removeAllListeners();
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        mAnimating = true;
+                    }
+                })
                 .start();
     }
 
@@ -448,26 +477,19 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
                 .scaleY(1)
                 .setDuration(mRevealDuration)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
+                .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
                         mRevealCircle.setVisibility(View.INVISIBLE);
                         animation.removeAllListeners();
+                        mAnimating = false;
                     }
 
                     @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        mAnimating = true;
                     }
                 })
                 .start();
@@ -642,6 +664,9 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
     }
 
     private void applyTumblrCloseAnimation() {
+
+        final int alphaDuration = 130;
+
         final SpringSystem springSystem = SpringSystem.create();
 
         final View firstItem = mMenuItemViews.get(0);
@@ -655,6 +680,10 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
         springScaleY.addListener(destroySelfSpringListener);
         springScaleX.setEndValue(1);
         springScaleY.setEndValue(1);
+
+        firstItem.animate()
+                .alpha(160);
+
         for (int i = mMenuItemCount - 1; i >= 1; i--) {
             final View menuItemView = mMenuItemViews.get(i);
             new Handler().postDelayed(new Runnable() {
@@ -681,6 +710,10 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
                     springY.addListener(destroySelfSpringListener);
                     springX.setEndValue(1);
                     springY.setEndValue(1);
+
+                    menuItemView.animate()
+                            .alpha(0)
+                            .setDuration(alphaDuration);
                 }
             }, mTumblrTimeInterval * (mMenuItemCount - i - 1));
         }
@@ -693,10 +726,17 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
     public static class Builder {
 
         private Context context;
+
         private ArrayList<MenuItem> menuItems = new ArrayList<>();
+
         private FloatingActionButton fab;
+
         private int gravity = Gravity.BOTTOM | Gravity.RIGHT;
+
         private int animationType = ANIMATION_TYPE_BLOOM;
+
+        private boolean enableFollowAnimation = true;
+
         @ColorRes
         private int revealColor = android.R.color.holo_purple;
 
@@ -746,6 +786,11 @@ public class SpringFloatingActionMenu extends FrameLayout implements ViewTreeObs
 
         public Builder revealColor(@ColorRes int color) {
             this.revealColor = color;
+            return this;
+        }
+
+        public Builder enableFollowAnimation(boolean enable) {
+            this.enableFollowAnimation = enable;
             return this;
         }
 
