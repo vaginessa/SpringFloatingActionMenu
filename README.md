@@ -110,7 +110,7 @@ For more usage, you can check out the example.
 + Fix: In Last Collapsing animation of menu leaves traces of menu items on screen;
 + Fix animation unstable caused by FAB get clicked too fast.
 
-# LICENSE
+# LICENSE 
 
 ```
 Copyright (C) 2016 tiancaiCC
